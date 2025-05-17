@@ -1,0 +1,19 @@
+{
+  "exercise_key": "bodyscan",
+  "exercise_name_for_llm": "Breve Escaneamento Corporal",
+  "introduction_template": "Ótima decisão! Por iniciar o {exercise_name}, você ganhou +{points_earned} pontos, chegando a {total_points} no total!",
+  "steps": [
+    "1. Acomode-se em uma posição realmente confortável, deitado(a) se possível, ou bem relaxado(a) em uma cadeira, com a coluna ereta mas sem tensão.",
+    "2. Feche os olhos suavemente, se isso te ajudar a concentrar, ou mantenha um olhar baixo e desfocado.",
+    "3. Faça duas ou três respirações lentas e profundas para começar a se assentar no momento presente.",
+    "4. Agora, leve sua atenção para os dedos do seu pé esquerdo. Apenas sinta qualquer sensação que esteja lá... formigamento, calor, frio, o contato com a meia ou o sapato... não precisa mudar nada, apenas observe.",
+    "5. Permita que sua atenção suba lentamente pela sola do pé esquerdo, calcanhar, tornozelo, panturrilha, joelho e coxa esquerda, notando as sensações em cada parte.",
+    "6. Faça o mesmo com a perna direita, começando pelos dedos do pé direito e subindo até a coxa.",
+    "7. Agora, traga a atenção para a região do seu quadril, seu abdômen e a parte inferior das costas. Observe o movimento suave da sua respiração no abdômen.",
+    "8. Mova a atenção para o seu peito e a parte superior das costas. Sinta a expansão ao inspirar e o relaxamento ao expirar.",
+    "9. Leve a atenção para os seus ombros. Se houver tensão, veja se consegue soltá-la um pouco a cada expiração. Deixe a atenção descer pelos seus braços até as mãos e os dedos.",
+    "10. Finalmente, traga a atenção para o seu pescoço, rosto e cabeça. Relaxe a mandíbula, a testa, os músculos ao redor dos olhos.",
+    "11. Permaneça por um momento sentindo todo o seu corpo presente, respirando calmamente."
+  ],
+  "conclusion_template": "Quando estiver pronto(a), comece a mexer suavemente os dedos das mãos e dos pés. Se quiser, se espreguice um pouco. E então, lentamente, abra os olhos. Como você se sente depois deste momento de atenção ao corpo?"
+}

@@ -1,0 +1,15 @@
+{
+  "exercise_key": "sounds",
+  "exercise_name_for_llm": "Exercício de Atenção aos Sons",
+  "introduction_template": "Excelente! Começar este {exercise_name} te rendeu +{points_earned} pontos! Agora você tem {total_points}.",
+  "steps": [
+    "1. Encontre uma posição confortável, sentado(a) ou deitado(a). Se desejar, feche os olhos ou mantenha um olhar suave e baixo.",
+    "2. Traga sua atenção para o sentido da audição. Apenas perceba os sons ao seu redor, sem a necessidade de nomeá-los ou julgá-los.",
+    "3. Comece notando os sons mais distantes que você consegue ouvir... talvez sons de fora do cômodo onde você está.",
+    "4. Gradualmente, traga sua atenção para os sons mais próximos... dentro do cômodo.",
+    "5. Agora, tente perceber os sons mais sutis... talvez o som da sua própria respiração, ou o leve zumbido de algum aparelho.",
+    "6. Apenas deixe os sons virem e irem, como ondas. Se sua mente divagar, gentilmente traga sua atenção de volta para a escuta.",
+    "7. Continue assim por mais alguns momentos, apenas repousando na experiência de ouvir."
+  ],
+  "conclusion_template": "Quando estiver pronto(a), lentamente traga sua atenção de volta para a sala e, se seus olhos estavam fechados, abra-os suavemente. Como se sentiu após este momento de escuta atenta?"
+}

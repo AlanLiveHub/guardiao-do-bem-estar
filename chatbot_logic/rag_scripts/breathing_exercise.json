@@ -1,0 +1,16 @@
+{
+  "exercise_key": "breathing",
+  "exercise_name_for_llm": "Exercício de Respiração Profunda",
+  "introduction_template": "Ótima escolha! Este {exercise_name} é uma ferramenta poderosa para acalmar o sistema nervoso e trazer mais clareza para a mente. Por iniciá-lo, você ganhou +{points_earned} pontos! Seu total é {total_points}.",
+  "steps": [
+    "1. Sente-se ou deite-se confortavelmente, relaxando os ombros e descruzando pernas e braços.",
+    "2. Se quiser, feche os olhos suavemente ou mantenha um olhar baixo e relaxado.",
+    "3. Inspire lentamente e profundamente pelo nariz, sentindo o ar encher seus pulmões e seu abdômen expandir suavemente. Conte mentalmente até 4 enquanto inspira.",
+    "4. Segure o ar por um breve momento, talvez contando 1 ou 2, se for confortável.",
+    "5. Expire todo o ar lentamente pela boca, como se estivesse soprando uma vela, sentindo seu abdômen e peito relaxarem. Conte mentalmente até 6 enquanto expira.",
+    "6. Faça uma pequena pausa antes de inspirar novamente.",
+    "7. Vamos repetir este ciclo mais duas vezes, no seu próprio ritmo: Inspire profundamente... segure se quiser... expire longamente...",
+    "8. Mais uma vez: Inspire... segure... expire completamente."
+  ],
+  "conclusion_template": "Muito bem. Permaneça assim por um momento, apenas observando como se sente. Espero que essas respirações tenham trazido um pouco mais de calma e foco. Como você está se sentindo agora?"
+}

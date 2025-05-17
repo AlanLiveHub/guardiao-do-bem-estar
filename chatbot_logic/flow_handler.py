@@ -10,6 +10,29 @@ from config import (
 )
 import random
 import traceback
+import json # Para carregar os scripts JSON
+import os   # Para construir caminhos de arquivo
+
+# Define o caminho base para os scripts RAG
+BASE_DIR = os.path.dirname(os.path.abspath(__file__)) # Diretório atual (chatbot_logic)
+RAG_SCRIPT_DIR = os.path.join(BASE_DIR, "rag_scripts")
+
+def load_rag_script(exercise_key):
+    """Carrega um script de exercício do arquivo JSON."""
+    filename = os.path.join(RAG_SCRIPT_DIR, f"{exercise_key}_exercise.json")
+    try:
+        with open(filename, 'r', encoding='utf-8') as f:
+            script_data = json.load(f)
+            print(f"INFO (flow_handler): Script RAG '{filename}' carregado com sucesso.")
+            return script_data
+    except FileNotFoundError:
+        print(f"ERRO (flow_handler): Script RAG não encontrado: {filename}")
+    except json.JSONDecodeError:
+        print(f"ERRO (flow_handler): Erro ao decodificar JSON do script RAG: {filename}")
+    except Exception as e:
+        print(f"ERRO (flow_handler): Erro inesperado ao carregar script RAG '{filename}': {e}")
+    return None
+
 
 def handle_user_message(user_input_text, sdk_chat_obj, flask_session_id):
     user_input_lower = user_input_text.lower()
@@ -32,7 +55,7 @@ def handle_user_message(user_input_text, sdk_chat_obj, flask_session_id):
 
     # 2. Lógica de Fluxos Especiais
     if not is_special_flow:
-        # Captura o estado das flags no início para consistência dentro deste turno
+        # Captura o estado das flags no início
         guidance_breathing_was_pending = session_manager.is_pending_guidance_breathing_offer()
         guidance_sounds_was_pending = session_manager.is_pending_guidance_sounds_offer()
         guidance_bodyscan_was_pending = session_manager.is_pending_guidance_bodyscan_offer()
@@ -60,29 +83,45 @@ def handle_user_message(user_input_text, sdk_chat_obj, flask_session_id):
             session_manager.clear_pending_guidance_breathing_offer()
             session_manager.clear_pending_guidance_sounds_offer()
             session_manager.clear_pending_guidance_bodyscan_offer()
-            session_manager.clear_three_good_things_suggested() # Limpa 3GT também se estava pendente com guias
+            session_manager.clear_three_good_things_suggested()
 
-            new_total_points = 0 
+            script_to_load_key = None
+            exercise_chosen_name_log = "" # Para log
 
             if user_choice_input == "1" or (guidance_breathing_was_pending and any(kw in user_input_lower for kw in BREATHING_EXERCISE_KEYWORDS)):
-                new_total_points = session_manager.add_user_points(POINTS_GUIDED_EXERCISE_ACCEPTED)
-                prompt_for_gemini = prompts.get_breathing_guidance_prompt(new_total_points)
-                processed_choice_for_guide = True; print(f"DEBUG ... Escolheu/Confirmou Respiração. +{POINTS_GUIDED_EXERCISE_ACCEPTED}pts, Total:{new_total_points}")
+                script_to_load_key = "breathing"
+                exercise_chosen_name_log = "Respiração"
+                processed_choice_for_guide = True
             elif user_choice_input == "2" or (guidance_sounds_was_pending and any(kw in user_input_lower for kw in SOUNDS_EXERCISE_KEYWORDS)):
-                new_total_points = session_manager.add_user_points(POINTS_GUIDED_EXERCISE_ACCEPTED)
-                prompt_for_gemini = prompts.get_sound_awareness_guidance_prompt(new_total_points)
-                processed_choice_for_guide = True; print(f"DEBUG ... Escolheu/Confirmou Sons. +{POINTS_GUIDED_EXERCISE_ACCEPTED}pts, Total:{new_total_points}")
+                script_to_load_key = "sound_awareness"
+                exercise_chosen_name_log = "Atenção aos Sons"
+                processed_choice_for_guide = True
             elif user_choice_input == "3" or (guidance_bodyscan_was_pending and any(kw in user_input_lower for kw in BODYSCAN_EXERCISE_KEYWORDS)):
-                new_total_points = session_manager.add_user_points(POINTS_GUIDED_EXERCISE_ACCEPTED)
-                prompt_for_gemini = prompts.get_body_scan_guidance_prompt(new_total_points) # Chamada correta
-                processed_choice_for_guide = True; print(f"DEBUG ... Escolheu/Confirmou Bodyscan. +{POINTS_GUIDED_EXERCISE_ACCEPTED}pts, Total:{new_total_points}")
+                script_to_load_key = "body_scan"
+                exercise_chosen_name_log = "Escaneamento Corporal"
+                processed_choice_for_guide = True
             
-            if not processed_choice_for_guide: 
+            if processed_choice_for_guide and script_to_load_key:
+                exercise_script_data = load_rag_script(script_to_load_key)
+                if exercise_script_data:
+                    new_total_points = session_manager.add_user_points(POINTS_GUIDED_EXERCISE_ACCEPTED)
+                    prompt_for_gemini = prompts.get_rag_guided_exercise_prompt(
+                        exercise_script_data, 
+                        POINTS_GUIDED_EXERCISE_ACCEPTED, 
+                        new_total_points
+                    )
+                    print(f"DEBUG ... Usuário escolheu Guia RAG: {exercise_chosen_name_log}. +{POINTS_GUIDED_EXERCISE_ACCEPTED}pts, Total:{new_total_points}")
+                else: 
+                    final_bot_response_parts = [f"Desculpe, tive um problema ao preparar o exercício de {exercise_chosen_name_log}. Que tal tentarmos outra das opções ou algo diferente?"]
+                    send_to_gemini = False
+                    if guidance_breathing_was_pending: session_manager.set_pending_guidance_breathing_offer()
+                    if guidance_sounds_was_pending: session_manager.set_pending_guidance_sounds_offer()
+                    if guidance_bodyscan_was_pending: session_manager.set_pending_guidance_bodyscan_offer()
+            elif not processed_choice_for_guide: 
                 if any(word in user_input_lower for word in AFFIRMATIVE_KEYWORDS) and num_pending_guidance_offers > 0 :
-                    if num_pending_guidance_offers >= 1: # Se havia pelo menos uma oferta e disse "sim" genericamente
+                    if num_pending_guidance_offers >= 1: 
                         final_bot_response_parts = ["Ótimo! Qual deles você gostaria de tentar: 1. Respiração, 2. Sons, ou 3. Escaneamento Corporal? (Por favor, digite o número)"]
                         send_to_gemini = False
-                        # Recoloca as flags que estavam originalmente ativas
                         if guidance_breathing_was_pending: session_manager.set_pending_guidance_breathing_offer() 
                         if guidance_sounds_was_pending: session_manager.set_pending_guidance_sounds_offer()
                         if guidance_bodyscan_was_pending: session_manager.set_pending_guidance_bodyscan_offer()
@@ -151,14 +190,9 @@ def handle_user_message(user_input_text, sdk_chat_obj, flask_session_id):
     if not is_special_flow:
         print("DEBUG (flow_handler): Entrando no Fluxo Normal.")
         prompt_for_gemini = user_input_text
-        # A SYSTEM_INSTRUCTION_FOR_MODEL deve cuidar do tom e da não repetição do disclaimer.
-        # A lógica de adicionar o disclaimer para modelos não-1.5 na primeira mensagem
-        # deve ser tratada pelo `get_initial_disclaimer_prompt` se necessário,
-        # ou idealmente, o SYSTEM_INSTRUCTION é suficiente para todos os modelos suportados.
         current_sdk_msg_count = session_manager.get_sdk_message_count(flask_session_id)
         if current_sdk_msg_count == 0 and not ("1.5" in MODEL_NAME and SYSTEM_INSTRUCTION_FOR_MODEL):
-             prompt_for_gemini = prompts.get_initial_disclaimer_prompt(user_input_text) # Este prompt adiciona o disclaimer
-             print("DEBUG (flow_handler): Fluxo Normal - Primeira msg para LLM, usando prompt com disclaimer (não-1.5).")
+            pass # Confia no SYSTEM_INSTRUCTION para o tom da primeira resposta do LLM
     
     # 4. Enviar para Gemini
     if send_to_gemini and prompt_for_gemini:
