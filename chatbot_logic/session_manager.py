@@ -4,14 +4,18 @@ from chatbot_logic import model_instance
 from config import (
     SESSION_KEY_SDK_HISTORY, SESSION_KEY_SDK_MSG_COUNT,
     SESSION_KEY_ASKED_SCALE, SESSION_KEY_ASKED_WORD, 
-    SESSION_KEY_PENDING_GUIDANCE_BREATHING, SESSION_KEY_PENDING_GUIDANCE_SOUNDS,
+    SESSION_KEY_PENDING_GUIDANCE_BREATHING, SESSION_KEY_PENDING_GUIDANCE_SOUNDS, SESSION_KEY_PENDING_GUIDANCE_BODYSCAN,
     SESSION_KEY_SUGGESTED_THREE_GOOD_THINGS
 )
 import google.generativeai as genai
 
 active_sdk_chats = {}
 
-def get_or_create_sdk_chat_data(flask_session_id):
+# ... (get_or_create_sdk_chat_data, get_sdk_message_count, increment_sdk_message_count, save_sdk_state_to_flask_session como antes) ...
+# (funções set_flag, get_flag, clear_flag como antes)
+# (helpers para asked_scale, asked_word, pending_breathing, pending_sounds, three_good_things como antes)
+
+def get_or_create_sdk_chat_data(flask_session_id): # Mantendo a versão completa anterior
     global active_sdk_chats
     if flask_session_id not in active_sdk_chats or not active_sdk_chats[flask_session_id].get('sdk_chat_obj'):
         print(f"INFO (session_manager): Tentando criar/recarregar chat SDK para flask_session_id: {flask_session_id}")
@@ -97,6 +101,16 @@ def clear_pending_guidance_breathing_offer(sid): clear_flag(SESSION_KEY_PENDING_
 def is_pending_guidance_sounds_offer(sid): return get_flag(SESSION_KEY_PENDING_GUIDANCE_SOUNDS, sid, False)
 def set_pending_guidance_sounds_offer(sid): set_flag(SESSION_KEY_PENDING_GUIDANCE_SOUNDS, sid)
 def clear_pending_guidance_sounds_offer(sid): clear_flag(SESSION_KEY_PENDING_GUIDANCE_SOUNDS, sid)
+
+# --- Funções para Guia de Escaneamento Corporal --- (NOVO)
+def is_pending_guidance_bodyscan_offer(sid):
+    return get_flag(SESSION_KEY_PENDING_GUIDANCE_BODYSCAN, sid, False)
+
+def set_pending_guidance_bodyscan_offer(sid):
+    set_flag(SESSION_KEY_PENDING_GUIDANCE_BODYSCAN, sid)
+
+def clear_pending_guidance_bodyscan_offer(sid):
+    clear_flag(SESSION_KEY_PENDING_GUIDANCE_BODYSCAN, sid)
 
 def was_three_good_things_suggested(sid): return get_flag(SESSION_KEY_SUGGESTED_THREE_GOOD_THINGS, sid, False)
 def set_three_good_things_suggested(sid): set_flag(SESSION_KEY_SUGGESTED_THREE_GOOD_THINGS, sid)

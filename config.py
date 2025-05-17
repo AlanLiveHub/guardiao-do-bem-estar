@@ -41,18 +41,19 @@ CVV_MESSAGE_TEXT_PARTS = [
 CHECKIN_KEYWORDS = ["check-in", "checkin", "como estou", "me sinto", "sentimento", "energia"]
 AFFIRMATIVE_KEYWORDS = ["sim", "quero", "pode ser", "aceito", "ok", "s", "claro", "sim por favor", "gostaria", "manda", "isso", "por favor", "aceitar"]
 
-# Palavras-chave para escolher exercícios específicos
 BREATHING_EXERCISE_KEYWORDS = ["respira", "respiração", "respirar", "1", "um", "primeira", "opcao 1", "opção 1"]
 SOUNDS_EXERCISE_KEYWORDS = ["som", "sons", "escuta", "ouvir", "2", "dois", "segunda", "opcao 2", "opção 2"]
+BODYSCAN_EXERCISE_KEYWORDS = ["corpo", "corporal", "escaneamento", "scan", "3", "tres", "terceira", "opcao 3", "opção 3"]
 
 
-SESSION_KEY_UI_HISTORY = 'ui_chat_history_v3' # Incrementado para novo teste
-SESSION_KEY_SDK_HISTORY = 'sdk_gemini_history_v3'
-SESSION_KEY_SDK_MSG_COUNT = 'sdk_message_count_v3'
-SESSION_KEY_ASKED_SCALE = "asked_checkin_scale_v3"
-SESSION_KEY_ASKED_WORD = "asked_checkin_word_v3"
-SESSION_KEY_PENDING_GUIDANCE_BREATHING = "pending_guidance_offer_breathing_v3"
-SESSION_KEY_PENDING_GUIDANCE_SOUNDS = "pending_guidance_offer_sounds_v3"
-SESSION_KEY_SUGGESTED_THREE_GOOD_THINGS = "suggested_three_good_things_v3"
+SESSION_KEY_UI_HISTORY = 'ui_chat_history_v4' 
+SESSION_KEY_SDK_HISTORY = 'sdk_gemini_history_v4'
+SESSION_KEY_SDK_MSG_COUNT = 'sdk_message_count_v4'
+SESSION_KEY_ASKED_SCALE = "asked_checkin_scale_v4"
+SESSION_KEY_ASKED_WORD = "asked_checkin_word_v4"
+SESSION_KEY_PENDING_GUIDANCE_BREATHING = "pending_guidance_offer_breathing_v4"
+SESSION_KEY_PENDING_GUIDANCE_SOUNDS = "pending_guidance_offer_sounds_v4"
+SESSION_KEY_PENDING_GUIDANCE_BODYSCAN = "pending_guidance_offer_bodyscan_v4"
+SESSION_KEY_SUGGESTED_THREE_GOOD_THINGS = "suggested_three_good_things_v4"
 
 APP_SECRET_KEY = os.urandom(24)

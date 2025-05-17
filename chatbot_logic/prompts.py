@@ -4,122 +4,114 @@ from config import DISCLAIMER_TEXT_FOR_FIRST_BOT_RESPONSE
 def get_checkin_scale_response_prompt(user_scale_response):
     try:
         scale_value = int(user_scale_response)
+        validation_text = f"Entendi, um {user_scale_response}."
     except ValueError:
-        scale_value = None 
+        scale_value = None
+        validation_text = f"Entendi que você disse '{user_scale_response}'."
 
-    main_suggestion_llm = ""
-    if scale_value is not None:
-        if scale_value <= 2:
-            main_suggestion_llm = (
-                "Sinto muito que não esteja se sentindo tão bem. Para momentos assim, um exercício guiado pode ajudar a trazer um pouco de calma. Tenho duas sugestões: \n" # \n para nova linha na UI
-                "1. Exercício de respiração profunda.\n"
-                "2. Exercício de atenção aos sons.\n"
-                "Qual delas você gostaria de tentar? (Por favor, digite o número 1 ou 2)."
-            )
-        elif scale_value == 3:
-            main_suggestion_llm = (
-                "Um dia mais ou menos, entendo. Para se reconectar um pouco, tenho algumas ideias: \n"
-                "1. Um breve exercício de atenção aos sons.\n"
-                "2. Listar três coisas boas do seu dia.\n"
-                "O que te parece melhor para este momento? (Se quiser o exercício de sons, digite 1. Se quiser listar as três coisas, pode começar a listá-las)." # Nota: 3GT ainda é direto
-            )
-        else: # 4 ou 5
-            main_suggestion_llm = (
-                "Que ótimo! Para manter essa boa energia, o exercício de 'Três Coisas Boas' é excelente. "
-                "Que tal me contar três coisas pelas quais você se sente grato(a) hoje?" # Direto para 3GT
-            )
-    else: 
-        main_suggestion_llm = (
-            "Obrigado por compartilhar. Para te ajudar, tenho algumas sugestões: \n"
-            "1. Exercício de respiração.\n"
-            "2. Exercício de atenção aos sons.\n"
-            "3. O exercício das 'Três Coisas Boas'.\n"
-            "Alguma dessas opções te interessa? (Digite o número ou comece a listar as três coisas)."
-        )
+    options_text = (
+        "Para momentos assim, um exercício guiado pode ajudar. Tenho estas sugestões:\n"
+        "1. Exercício de respiração profunda.\n"
+        "2. Exercício de atenção aos sons.\n"
+        "3. Um breve escaneamento corporal para relaxar.\n"
+        "Qual delas você gostaria de tentar? (Por favor, digite o número 1, 2 ou 3)."
+    )
+    three_good_things_suggestion = (
+        "Que tal focar no positivo? Você pode me contar três pequenas coisas pelas quais se sente grato(a) hoje?"
+    )
 
+    main_suggestion_for_llm = options_text
+    if scale_value is not None and scale_value >= 4:
+        main_suggestion_for_llm = three_good_things_suggestion
+    
     return f"""INSTRUÇÃO ESPECIAL: O usuário respondeu a um check-in de escala com "{user_scale_response}".
 
-Sua tarefa:
-1. Valide gentilmente o sentimento do usuário de forma concisa (ex: "Entendi, um {user_scale_response}.").
-2. Em seguida, APRESENTE EXATAMENTE a seguinte sugestão ou pergunta, sem modificá-la: "{main_suggestion_llm}"
-3. É crucial que sua resposta seja APENAS a validação seguida da sugestão/pergunta fornecida. Não adicione mais nada.
-4. Se sua sugestão envolveu oferecer opções numeradas, sua resposta deve APENAS apresentar essas opções e aguardar a escolha numérica do usuário.
-5. Se sua sugestão foi um convite direto para "Três Coisas Boas", a próxima resposta do usuário deverá ser a lista.
-6. Mantenha a resposta curta, empática. Não dê conselhos médicos. Não repita o disclaimer inicial.
+Sua ÚNICA tarefa é gerar uma resposta contendo UMA ÚNICA PARTE DE TEXTO (um único bloco de texto, não uma lista de partes).
+Esta única parte de texto deve combinar EXATAMENTE o seguinte:
+Primeiro, esta validação: "{validation_text}"
+Em seguida, APENAS esta sugestão/pergunta: "{main_suggestion_for_llm}"
+
+Exemplo de como sua resposta DEVE SER (como uma única string/parte):
+"{validation_text} {main_suggestion_for_llm}"
+
+NÃO adicione nenhum outro texto, explicação, numeração própria, ou formatação além do que foi fornecido na sugestão.
+NÃO divida sua resposta em múltiplas partes ou mensagens.
+Mantenha a empatia implícita no tom da validação. Não dê conselhos médicos. Não repita o disclaimer inicial.
 """
 
 def get_checkin_word_response_prompt(user_word_response):
     user_word_lower = user_word_response.lower()
-    main_suggestion_llm = ""
+    validation_text = f"Entendo que você está se sentindo '{user_word_response}'."
+    
+    options_text = (
+        "Para lidar com isso, um exercício guiado pode ser útil. Tenho estas sugestões:\n"
+        "1. Exercício de respiração profunda.\n"
+        "2. Exercício de atenção aos sons.\n"
+        "3. Um breve escaneamento corporal.\n"
+        "Qual delas você gostaria de tentar? (Digite 1, 2 ou 3)."
+    )
+    three_good_things_suggestion = (
+        "Que tal cultivar esse sentimento positivo com o exercício das 'Três Coisas Boas'? "
+        "Você pode me contar três coisas que contribuíram para esse seu estado hoje."
+    )
 
-    if any(kw in user_word_lower for kw in ["cansado", "exausto", "sobrecarregado", "sem energia"]):
-        main_suggestion_llm = (
-            "Isso pode ser desgastante. Uma pequena pausa para algumas respirações profundas ou um momento de atenção aos sons pode ajudar a recarregar. Sugiro: \n"
-            "1. Exercício de respiração profunda.\n"
-            "2. Exercício de atenção aos sons.\n"
-            "Qual dos dois parece mais útil agora? (Digite 1 ou 2)."
-        )
-    elif any(kw in user_word_lower for kw in ["ansioso", "estressado", "preocupado", "agitado"]):
-        main_suggestion_llm = (
-            "Quando nos sentimos assim, focar no presente pode ser calmante. Tenho duas opções: \n"
-            "1. Exercício de atenção aos sons.\n"
-            "2. Exercício de respirações conscientes.\n"
-            "Gostaria de tentar um deles com minha orientação? (Digite 1 ou 2)."
-        )
-    elif any(kw in user_word_lower for kw in ["feliz", "bem", "ótimo", "grato", "animado"]):
-        main_suggestion_llm = (
-            "Que maravilha! Para cultivar ainda mais esse sentimento, que tal o exercício das 'Três Coisas Boas'? " # Direto para 3GT
-            "Você pode me contar três coisas que contribuíram para esse seu estado hoje."
-        )
-    else: 
-        main_suggestion_llm = (
-            "Obrigado por compartilhar. Que tal uma pequena ação como: \n"
-            "1. Fazer 3 respirações profundas.\n"
-            "2. Focar nos sons ao redor por um minuto.\n"
-            "Alguma dessas te atrai? (Digite 1 ou 2)."
-        )
-
+    main_suggestion_for_llm = options_text
+    if any(kw in user_word_lower for kw in ["feliz", "bem", "ótimo", "grato", "animado"]):
+        main_suggestion_for_llm = three_good_things_suggestion
+    
     return f"""INSTRUÇÃO ESPECIAL: O usuário respondeu a um check-in de palavra com "{user_word_response}".
 
-Sua tarefa:
-1. Valide gentilmente o sentimento do usuário de forma concisa (ex: "Entendo que você está se sentindo '{user_word_response}'.")
-2. Em seguida, APRESENTE EXATAMENTE a seguinte sugestão ou pergunta, sem modificá-la: "{main_suggestion_llm}"
-3. É crucial que sua resposta seja APENAS a validação seguida da sugestão/pergunta fornecida. Não adicione mais nada.
-4. Se sua sugestão envolveu oferecer opções numeradas, sua resposta deve APENAS apresentar essas opções e aguardar a escolha numérica do usuário.
-5. Se sua sugestão foi um convite direto para "Três Coisas Boas", a próxima resposta do usuário deverá ser a lista.
-6. Mantenha a resposta curta, empática. Não dê conselhos médicos. Não repita o disclaimer inicial.
+Sua ÚNICA tarefa é gerar uma resposta contendo UMA ÚNICA PARTE DE TEXTO (um único bloco de texto, não uma lista de partes).
+Esta única parte de texto deve combinar EXATAMENTE o seguinte:
+Primeiro, esta validação: "{validation_text}"
+Em seguida, APENAS esta sugestão/pergunta: "{main_suggestion_for_llm}"
+
+Exemplo de como sua resposta DEVE SER (como uma única string/parte):
+"{validation_text} {main_suggestion_for_llm}"
+
+NÃO adicione nenhum outro texto, explicação, numeração própria, ou formatação além do que foi fornecido na sugestão.
+NÃO divida sua resposta em múltiplas partes ou mensagens.
+Mantenha a empatia implícita no tom da validação. Não dê conselhos médicos. Não repita o disclaimer inicial.
 """
 
-def get_acknowledge_three_good_things_prompt(user_listed_items):
+def get_acknowledge_three_good_things_prompt(user_listed_items): # Sem alterações significativas aqui
     return f"""INSTRUÇÃO ESPECIAL: O usuário listou três coisas pelas quais é grato: "{user_listed_items}"
-Sua tarefa:
-1. Reconheça positivamente (ex: "Maravilha!", "Essas são ótimas coisas!").
+Sua tarefa é gerar uma ÚNICA PARTE de texto que:
+1. Reconheça positivamente de forma breve (ex: "Maravilha!", "Essas são ótimas coisas!").
 2. Comente brevemente sobre o benefício da gratidão (ex: "Focar no positivo realmente eleva o espírito.").
 3. Finalize com uma pergunta aberta para continuar (ex: "Como posso te ajudar a continuar seu dia bem?").
-Resposta curta (aprox. 3 frases), empática. Não repita o disclaimer.
+A resposta deve ter cerca de 2-3 frases no total, ser empática e positiva. Não repita o disclaimer.
 """
 
-def get_breathing_guidance_prompt():
-    return f"""INSTRUÇÃO ESPECIAL: O usuário aceitou ser guiado em 3 respirações profundas.
-Forneça instruções CLARAS e CURTAS, passo a passo. Numere os passos. Tom calmo. Ao final, frase positiva. Não repita o disclaimer.
+def get_breathing_guidance_prompt(): # Instruir para ÚNICA PARTE
+    return f"""INSTRUÇÃO ESPECIAL: O usuário escolheu o exercício de 3 respirações profundas.
+Sua tarefa é fornecer instruções CLARAS e CURTAS, passo a passo, em UMA ÚNICA PARTE DE TEXTO.
+Use numeração (1., 2., 3.). Mantenha um tom calmo e encorajador.
+Ao final, adicione uma frase positiva curta, como "Espero que isso tenha ajudado!".
+Não repita o disclaimer.
 """
 
-def get_sound_awareness_guidance_prompt():
-    return f"""INSTRUÇÃO ESPECIAL: O usuário aceitou ser guiado em 1 minuto de atenção aos sons.
-Sua tarefa:
-1. Instruções CLARAS e CURTAS, passo a passo, para escuta atenta por aprox. 1 minuto.
-2. Sugira postura confortável, fechar os olhos (opcional).
-3. Guie: notar sons distantes, próximos, sutis, sem julgamento.
-4. Lembrete: trazer atenção de volta se mente divagar.
-5. Guie retorno ao ambiente.
-6. Finalize: "Como se sentiu após este momento de escuta atenta?".
-Tom calmo. Não repita o disclaimer.
+def get_sound_awareness_guidance_prompt(): # Instruir para ÚNICA PARTE
+    return f"""INSTRUÇÃO ESPECIAL: O usuário escolheu o exercício de 1 minuto de atenção aos sons.
+Sua tarefa é fornecer instruções CLARAS e CURTAS, passo a passo, para escuta atenta por aproximadamente 1 minuto, tudo em UMA ÚNICA PARTE DE TEXTO.
+1. Sugira postura confortável e, opcionalmente, fechar os olhos.
+2. Guie o usuário a notar diferentes tipos de sons (distantes, próximos, sutis) sem julgamento.
+3. Inclua um lembrete para gentilmente trazer a atenção de volta se a mente divagar.
+4. Após o período de escuta, guie o usuário a retornar a atenção ao ambiente.
+5. Finalize com uma pergunta gentil, como "Como se sentiu após este momento de escuta?".
+Mantenha um tom calmo e encorajador. Não repita o disclaimer inicial.
+"""
+
+def get_body_scan_guidance_prompt(): # Instruir para ÚNICA PARTE
+    return f"""INSTRUÇÃO ESPECIAL: O usuário escolheu o breve exercício de escaneamento corporal.
+Sua tarefa é fornecer instruções CLARAS e CURTAS, passo a passo, para um escaneamento corporal de aproximadamente 1-2 minutos, tudo em UMA ÚNICA PARTE DE TEXTO.
+1. Sugira uma postura confortável (sentado ou deitado).
+2. Guie a atenção do usuário através de algumas partes principais do corpo (ex: pés, pernas, abdômen, peito, ombros, rosto), pedindo para notar sensações sem julgamento.
+3. Encoraje o relaxamento de tensões percebidas.
+4. Após o escaneamento, guie o usuário a retornar a atenção ao ambiente.
+5. Finalize com uma pergunta gentil, como "Como você se sente depois deste momento de atenção ao corpo?".
+Mantenha um tom calmo e relaxante. Não repita o disclaimer inicial.
 """
 
 def get_initial_disclaimer_prompt(user_input_text):
-    # Este prompt só é usado se SYSTEM_INSTRUCTION_FOR_MODEL não for usada para o disclaimer inicial
-    # e o bot não estiver em um fluxo especial na primeira mensagem.
-    # Com a mensagem de boas-vindas na rota '/', este prompt para o LLM é menos provável de ser necessário
-    # para o disclaimer, mas pode ser usado para garantir que a primeira resposta do LLM seja contextual.
-    # Se o disclaimer já foi dado pela rota '/', então o LLM deve apenas responder ao user_input_text.
     return user_input_text
