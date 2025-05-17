@@ -1,9 +1,11 @@
 # meu_guardiao_do_bem_estar/chatbot_logic/session_manager.py
 from flask import session
 from chatbot_logic import model_instance # Importa a instância do modelo
+
 from config import (
     SESSION_KEY_SDK_HISTORY, SESSION_KEY_SDK_MSG_COUNT,
-    SESSION_KEY_ASKED_SCALE, SESSION_KEY_ASKED_WORD, SESSION_KEY_PENDING_GUIDANCE
+    SESSION_KEY_ASKED_SCALE, SESSION_KEY_ASKED_WORD, SESSION_KEY_PENDING_GUIDANCE,
+    SESSION_KEY_SUGGESTED_THREE_GOOD_THINGS
 )
 import google.generativeai as genai # Para types.Content e types.Part
 
@@ -127,3 +129,13 @@ def clear_asked_checkin_word(): clear_flag(SESSION_KEY_ASKED_WORD)
 def is_pending_guidance_offer(): return get_flag(SESSION_KEY_PENDING_GUIDANCE, False)
 def set_pending_guidance_offer(): set_flag(SESSION_KEY_PENDING_GUIDANCE)
 def clear_pending_guidance_offer(): clear_flag(SESSION_KEY_PENDING_GUIDANCE)
+
+# --- Funções para Três Coisas Boas ---
+def was_three_good_things_suggested():
+    return get_flag(SESSION_KEY_SUGGESTED_THREE_GOOD_THINGS, False)
+
+def set_three_good_things_suggested():
+    set_flag(SESSION_KEY_SUGGESTED_THREE_GOOD_THINGS)
+
+def clear_three_good_things_suggested():
+    clear_flag(SESSION_KEY_SUGGESTED_THREE_GOOD_THINGS)

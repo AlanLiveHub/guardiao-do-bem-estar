@@ -13,7 +13,12 @@ if not GEMINI_API_KEY:
 MODEL_NAME = "gemini-1.5-flash-latest" # Ou o modelo que você estiver usando
 
 # Instrução de Sistema para o Modelo (se aplicável)
-SYSTEM_INSTRUCTION_FOR_MODEL = f"""Você é 'Meu Guardião do Bem-Estar'. Sua primeira resposta DEVE incluir o seguinte disclaimer e depois responder à pergunta do usuário: "Olá! Sou seu Guardião do Bem-Estar. 👋 Lembre-se, NÃO substituo ajuda profissional. Se precisar de ajuda IMEDIATA, contate o CVV (Centro de Valorização da Vida) no 188 ou cvv.org.br. " Após esta primeira introdução, NÃO repita o disclaimer, a menos que seja estritamente relevante ou o usuário peça conselhos que você não pode dar. Mantenha um tom positivo, conciso e empático."""
+# SYSTEM_INSTRUCTION_FOR_MODEL = f"""Você é 'Meu Guardião do Bem-Estar'. Sua primeira resposta DEVE incluir o seguinte disclaimer e depois responder à pergunta do usuário: "Olá! Sou seu Guardião do Bem-Estar. 👋 Lembre-se, NÃO substituo ajuda profissional. Se precisar de ajuda IMEDIATA, contate o CVV (Centro de Valorização da Vida) no 188 ou cvv.org.br. " Após esta primeira introdução, NÃO repita o disclaimer, a menos que seja estritamente relevante ou o usuário peça conselhos que você não pode dar. Mantenha um tom positivo, conciso e empático."""
+SYSTEM_INSTRUCTION_FOR_MODEL = f"""Você é 'Meu Guardião do Bem-Estar'. Mantenha um tom positivo, conciso e empático. Seu objetivo é auxiliar usuários a construir e manter hábitos que promovam o bem-estar físico e mental.
+O usuário já recebeu uma mensagem de boas-vindas com o disclaimer principal (sobre não substituir ajuda profissional e o contato do CVV) ao abrir o chat.
+Portanto, em suas respostas subsequentes, NÃO repita esse disclaimer inicial completo, a menos que seja estritamente relevante para uma pergunta específica sobre limites ou o usuário peça conselhos que você claramente não pode dar (nesse caso, reforce a busca por ajuda profissional e o CVV).
+Concentre-se em responder diretamente à pergunta ou comentário do usuário de forma útil e encorajadora.
+"""
 
 # Constantes de Texto e Palavras-chave
 DISCLAIMER_TEXT_FOR_FIRST_BOT_RESPONSE = [
@@ -57,6 +62,8 @@ SESSION_KEY_ASKED_SCALE = "asked_checkin_scale"
 SESSION_KEY_ASKED_WORD = "asked_checkin_word"
 SESSION_KEY_PENDING_GUIDANCE = "pending_guidance_offer_breathing" # Pode generalizar depois
 # SESSION_KEY_LAST_CHECKIN_TYPE = 'last_checkin_type' # Não mais usado com random.choice
+
+SESSION_KEY_SUGGESTED_THREE_GOOD_THINGS = "suggested_three_good_things"
 
 # Outras configurações
 APP_SECRET_KEY = os.urandom(24) # Para a app Flask

@@ -1,32 +1,50 @@
 // static/js/main.js
-import { setAvatarUrls, appendMessageToUI, renderFullHistory, showTypingIndicator, removeTypingIndicator, getCurrentTimestamp, scrollToBottom } from './ui.js';
+import { 
+    setAvatarUrls, 
+    appendMessageToUI,
+    renderFullHistory, 
+    showTypingIndicator, 
+    removeTypingIndicator, 
+    getCurrentTimestamp, 
+    scrollToBottom 
+} from './ui.js';
 import { sendMessageToServer } from './api.js';
 
-// Seletores de DOM Globais para este módulo
 const messageForm = document.getElementById('messageForm');
 const userInputElement = document.getElementById('userInput');
 const messagesContainer = document.getElementById('messages');
 const sendButton = document.getElementById('sendButton');
 
-// Configura as URLs dos avatares para o módulo ui.js
-// Estas variáveis globais USER_AVATAR_URL_FROM_TEMPLATE e BOT_AVATAR_URL_FROM_TEMPLATE
-// devem ser definidas no index.html em uma tag <script> ANTES de carregar main.js
-// Ex: <script> const USER_AVATAR_URL_FROM_TEMPLATE = "{{...}}"; </script>
 if (typeof USER_AVATAR_URL_FROM_TEMPLATE !== 'undefined' && typeof BOT_AVATAR_URL_FROM_TEMPLATE !== 'undefined') {
     setAvatarUrls(USER_AVATAR_URL_FROM_TEMPLATE, BOT_AVATAR_URL_FROM_TEMPLATE);
 } else {
-    console.error("URLs de avatar não definidas no template HTML para main.js!");
-    // Defina fallbacks ou trate o erro
-    setAvatarUrls('path/to/default_user_avatar.png', 'path/to/default_bot_avatar.png');
+    console.error("ERRO: URLs de avatar não definidas no template HTML!");
 }
 
+function enableInputControls(focusInput = true) {
+    if (userInputElement) userInputElement.disabled = false;
+    if (sendButton) {
+        sendButton.disabled = false;
+        sendButton.textContent = "Enviar"; 
+    }
+    if (focusInput && userInputElement && document.activeElement !== userInputElement) {
+        userInputElement.focus();
+    }
+    console.log("[main.js] Controles de input HABILITADOS.");
+}
 
-// Event listener principal
-if (messageForm) {
+function disableInputControls(buttonText = 'Enviando...') {
+    if (userInputElement) userInputElement.disabled = true;
+    if (sendButton) {
+        sendButton.disabled = true;
+        sendButton.textContent = buttonText; 
+    }
+    console.log("[main.js] Controles de input DESABILITADOS com texto:", buttonText);
+}
+
+if (messageForm && userInputElement && messagesContainer && sendButton) {
     messageForm.addEventListener('submit', async function(e) {
         e.preventDefault();
-        if (!userInputElement || !sendButton || !messagesContainer) return;
-
         const messageText = userInputElement.value.trim();
         if (messageText === '') return;
 
@@ -34,49 +52,44 @@ if (messageForm) {
         const sentMessageText = messageText; 
         userInputElement.value = ''; 
 
-        const originalButtonText = sendButton.textContent;
-        sendButton.disabled = true; 
-        sendButton.textContent = 'Enviando...';
-        userInputElement.disabled = true;
+        disableInputControls('Enviando...'); 
         showTypingIndicator(messagesContainer);
 
         const result = await sendMessageToServer(sentMessageText);
         removeTypingIndicator(); 
 
         if (!result.ok) {
-            // Se 'result.data' existir e tiver 'full_history_for_template', usa-o.
-            // Isso pode acontecer se o servidor responder com um erro mas ainda fornecer o histórico.
+            console.error("[main.js] Erro da API recebido:", result.error);
             if (result.data && result.data.full_history_for_template) {
-                renderFullHistory(messagesContainer, result.data.full_history_for_template, false, () => userInputElement.focus());
+                renderFullHistory(messagesContainer, result.data.full_history_for_template, false, enableInputControls);
             } else {
-                // Caso contrário, mostra a mensagem de erro diretamente.
-                appendMessageToUI(messagesContainer, result.error || "Erro desconhecido.", 'bot', getCurrentTimestamp(), true, false, () => userInputElement.focus());
+                appendMessageToUI(messagesContainer, result.error || "Erro desconhecido.", 'bot', getCurrentTimestamp(), true, false, enableInputControls);
             }
         } else {
-            // Resposta OK
             const serverData = result.data;
             if (serverData && serverData.full_history_for_template) {
-                renderFullHistory(messagesContainer, serverData.full_history_for_template, true, () => userInputElement.focus()); 
+                const history = serverData.full_history_for_template;
+                const lastMsg = history[history.length - 1];
+                const willAnimate = lastMsg && (lastMsg.role === 'model' || lastMsg.role === 'bot') && !lastMsg.is_error;
+
+                if (willAnimate) {
+                    if(sendButton) sendButton.textContent = "Aguarde..."; 
+                    console.log("[main.js] Botão atualizado para 'Aguarde...' durante a animação do bot.");
+                }
+                renderFullHistory(messagesContainer, serverData.full_history_for_template, true, enableInputControls); 
             } else { 
-                console.warn("[main.js] Resposta OK, mas estrutura de dados inesperada.");
-                appendMessageToUI(messagesContainer, "Resposta inesperada do servidor.", 'bot', getCurrentTimestamp(), false, false, () => userInputElement.focus());
+                console.warn("[main.js] Resposta OK, mas estrutura de dados do servidor inesperada.");
+                appendMessageToUI(messagesContainer, "Resposta inesperada do servidor.", 'bot', getCurrentTimestamp(), false, false, enableInputControls);
             }
-        }
-        
-        sendButton.textContent = originalButtonText;
-        sendButton.disabled = false;
-        userInputElement.disabled = false;
-        if (!document.querySelector('.typing-indicator-row') && document.activeElement !== userInputElement) {
-            // userInputElement.focus(); // O foco é melhor tratado no callback de renderFullHistory
         }
     });
 } else {
-    console.error("Formulário de mensagem não encontrado!");
+    console.error("ERRO: Um ou mais elementos essenciais do DOM não foram encontrados!");
 }
 
-// Inicialização
 document.addEventListener('DOMContentLoaded', () => {
     if (messagesContainer) {
-        scrollToBottom(messagesContainer);
+        scrollToBottom(messagesContainer); 
     }
+    enableInputControls(false); 
 });
