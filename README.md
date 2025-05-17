@@ -1,4 +1,4 @@
-## Guardião do Bem-Estar
+# Guardião do Bem-Estar
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python Version](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
@@ -11,12 +11,13 @@
 
 <p align="center">
   <!-- ✅ SUBSTITUA PELA URL DA SUA IMAGEM DE LOGO OU REMOVA ESTA TAG SE NÃO TIVER -->
-  <img src="./static/img/guardian_robot.png" alt="Guardião do Bem-Estar Logo" width="200"/>
+  <img src="static/img/guardian_robot.png" alt="Guardião do Bem-Estar Logo" width="200"/>
   
 </p>
 <p align="center">
     Seu Companheiro Digital para uma Vida Mais Leve e Feliz!
 </p>
+
 
 **Este projeto é fruto da inspiradora Jornada da Imersão IA da Alura!** 🚀
 
@@ -37,6 +38,12 @@ Nossa missão é te ajudar a:
 ---
 
 ## ✨ O que o Guardião já pode fazer por você?
+
+<p align="center">
+  <img src="static/gif/apresentation_1.gif" alt="Demonstração das Funcionalidades do Guardião" width="600"/>
+  <!-- Ajuste a largura conforme necessário -->
+</p>
+
 
 Nosso Guardião está em constante aprendizado, mas já domina uma série de habilidades para te apoiar no dia a dia:
 
