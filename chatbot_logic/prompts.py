@@ -1,74 +1,114 @@
-# chatbot_logic/prompts.py
-from config import DISCLAIMER_TEXT_FOR_FIRST_BOT_RESPONSE # Se precisar do disclaimer aqui
+# meu_guardiao_do_bem_estar/chatbot_logic/prompts.py
+from config import DISCLAIMER_TEXT_FOR_FIRST_BOT_RESPONSE
 
-# Prompts para o Check-in Emocional
 def get_checkin_scale_response_prompt(user_scale_response):
-    return f"""INSTRUÇÃO ESPECIAL: O usuário está respondendo a um check-in emocional.
-A pergunta foi: "Como você está se sentindo hoje, numa escala de 1 a 5 (sendo 1 muito mal e 5 muito bem)?"
-Resposta do usuário (um número de 1 a 5): "{user_scale_response}"
+    try:
+        scale_value = int(user_scale_response)
+    except ValueError:
+        scale_value = None 
+
+    # Lógica para construir a sugestão principal baseada na escala
+    # Tornando as sugestões mais diretas e com menos variáveis para o LLM se perder.
+    main_suggestion_llm = ""
+    if scale_value is not None:
+        if scale_value <= 2:
+            main_suggestion_llm = (
+                "Sinto muito que não esteja se sentindo tão bem. "
+                "Para momentos assim, um exercício guiado pode ajudar a trazer um pouco de calma. "
+                "Você gostaria de tentar um exercício de respiração ou de atenção aos sons? "
+                "(Por favor, responda 'respiração' ou 'sons')."
+            )
+        elif scale_value == 3:
+            main_suggestion_llm = (
+                "Um dia mais ou menos, entendo. "
+                "Para se reconectar um pouco, que tal um breve exercício de atenção aos sons ou talvez listar três coisas boas? "
+                "O que te parece melhor para este momento?"
+            )
+        else: # 4 ou 5
+            main_suggestion_llm = (
+                "Que ótimo! Para manter essa boa energia, o exercício de 'Três Coisas Boas' é excelente. "
+                "Que tal me contar três coisas pelas quais você se sente grato(a) hoje?"
+            )
+    else: # Se a entrada não for um número claro
+        main_suggestion_llm = (
+            "Obrigado por compartilhar. Para te ajudar a se sentir melhor ou manter o foco, "
+            "sugiro um exercício de respiração, um de atenção aos sons, ou o exercício das 'Três Coisas Boas'. "
+            "Alguma dessas opções te interessa?"
+        )
+
+    return f"""INSTRUÇÃO ESPECIAL: O usuário respondeu a um check-in de escala com "{user_scale_response}".
 
 Sua tarefa:
-1. Valide gentilmente o sentimento (ex: "Entendi, um {user_scale_response}.").
-2. Interprete brevemente o número.
-3. Sugira UMA micro-ação apropriada do "Kit de Primeiros Socorros Emocionais". Opções incluem:
-    - Um exercício de respiração.
-    - Um exercício simples de mindfulness.
-    - O exercício "Três Coisas Boas".
-    - Uma pequena pausa ou um copo d'água.
-4. **Formulação da Sugestão:**
-   - SE A SUGESTÃO FOR UM EXERCÍCIO GUIADO (respiração, mindfulness), PERGUNTE se o usuário gostaria de ser guiado (ex: "Que tal um exercício de respiração para se centrar? Posso te guiar. O que acha?").
-   - SE A SUGESTÃO FOR O EXERCÍCIO "TRÊS COISAS BOAS", convide o usuário a listar diretamente. Exemplo: "Focar no positivo pode ser útil. Que tal me contar três pequenas coisas pelas quais você se sente grato(a) hoje?" ou "Um {user_scale_response} é um bom momento para praticar a gratidão. Quais são três coisas boas no seu dia de hoje?". **EVITE perguntar 'Você quer fazer o exercício das três coisas boas?' aqui; apenas convide a listar.**
-   - Para outras sugestões (pausa, água), apenas sugira.
-5. Mantenha a resposta curta (2-4 frases), empática. Não dê conselhos médicos. Não repita o disclaimer inicial (o usuário já o viu).
+1. Valide gentilmente o sentimento do usuário de forma concisa (ex: "Entendi, um {user_scale_response}.").
+2. Em seguida, APRESENTE EXATAMENTE a seguinte sugestão ou pergunta, sem modificá-la: "{main_suggestion_llm}"
+3. É crucial que sua resposta seja APENAS a validação seguida da sugestão/pergunta fornecida acima. Não adicione mais nada.
+4. Mantenha a resposta curta, empática. Não dê conselhos médicos. Não repita o disclaimer inicial.
 """
 
 def get_checkin_word_response_prompt(user_word_response):
-    return f"""INSTRUÇÃO ESPECIAL: O usuário está respondendo a um check-in emocional.
-A pergunta foi: "Qual palavra descreve sua energia ou sentimento predominante hoje?"
-Resposta do usuário (uma ou poucas palavras): "{user_word_response}"
+    user_word_lower = user_word_response.lower()
+    main_suggestion_llm = ""
+
+    if any(kw in user_word_lower for kw in ["cansado", "exausto", "sobrecarregado", "sem energia"]):
+        main_suggestion_llm = (
+            "Isso pode ser desgastante. Uma pequena pausa para algumas respirações profundas ou um momento de atenção aos sons pode ajudar a recarregar. "
+            "Qual dos dois parece mais útil agora? (Responda 'respiração' ou 'sons')."
+        )
+    elif any(kw in user_word_lower for kw in ["ansioso", "estressado", "preocupado", "agitado"]):
+        main_suggestion_llm = (
+            "Quando nos sentimos assim, focar no presente pode ser calmante. Um exercício de atenção aos sons ou algumas respirações conscientes podem ajudar. "
+            "Gostaria de tentar um deles com minha orientação? (Diga 'respiração' ou 'sons')."
+        )
+    elif any(kw in user_word_lower for kw in ["feliz", "bem", "ótimo", "grato", "animado"]):
+        main_suggestion_llm = (
+            "Que maravilha! Para cultivar ainda mais esse sentimento, que tal o exercício das 'Três Coisas Boas'? "
+            "Você pode me contar três coisas que contribuíram para esse seu estado hoje."
+        )
+    else: 
+        main_suggestion_llm = (
+            "Obrigado por compartilhar. Que tal uma pequena ação como 3 respirações profundas, "
+            "ou focar nos sons ao redor por um minuto? Alguma dessas te atrai?"
+        )
+
+    return f"""INSTRUÇÃO ESPECIAL: O usuário respondeu a um check-in de palavra com "{user_word_response}".
 
 Sua tarefa:
-1. Valide gentilmente o sentimento (ex: "Entendo que você está se sentindo '{user_word_response}'.").
-2. Com base na palavra, sugira UMA micro-ação apropriada do "Kit de Primeiros Socorros Emocionais". Opções incluem:
-    - Se 'cansado', 'sobrecarregado', 'estressado', 'ansioso': Sugira uma pausa, respiração ou mindfulness.
-    - Se 'feliz', 'bem', 'grato': Sugira listar 3 coisas boas para reforçar, ou uma ação para manter a energia.
-    - Se 'neutro', 'ok', 'normal': Sugira uma pequena pausa, um copo d'água, ou o exercício "Três Coisas Boas".
-3. **Formulação da Sugestão:**
-   - SE A SUGESTÃO FOR UM EXERCÍCIO GUIADO (respiração, mindfulness), PERGUNTE se o usuário gostaria de ser guiado (ex: "Sinto que um exercício de respiração poderia ajudar com isso. Posso te guiar. O que me diz?").
-   - SE A SUGESTÃO FOR O EXERCÍCIO "TRÊS COISAS BOAS", convide o usuário a listar diretamente. Exemplo: "Já que está se sentindo '{user_word_response}', que tal dedicar um momento para pensar em três coisas boas do seu dia? Você pode me contar." ou "Para cultivar esse sentimento de '{user_word_response}', quais são três coisas que te trazem um sorriso hoje?". **EVITE perguntar 'Você quer fazer o exercício das três coisas boas?' aqui; apenas convide a listar.**
-   - Para outras sugestões (pausa, água), apenas sugira.
-4. Mantenha a resposta curta (2-4 frases), empática. Não dê conselhos médicos. Não repita o disclaimer inicial (o usuário já o viu).
+1. Valide gentilmente o sentimento do usuário de forma concisa (ex: "Entendo que você está se sentindo '{user_word_response}'.")
+2. Em seguida, APRESENTE EXATAMENTE a seguinte sugestão ou pergunta, sem modificá-la: "{main_suggestion_llm}"
+3. É crucial que sua resposta seja APENAS a validação seguida da sugestão/pergunta fornecida acima. Não adicione mais nada.
+4. Mantenha a resposta curta, empática. Não dê conselhos médicos. Não repita o disclaimer inicial.
 """
 
-# Prompt para quando o usuário lista as Três Coisas Boas
 def get_acknowledge_three_good_things_prompt(user_listed_items):
-    return f"""INSTRUÇÃO ESPECIAL: O usuário acabou de listar três coisas pelas quais é grato, como parte do exercício "Três Coisas Boas".
-Itens listados pelo usuário: "{user_listed_items}"
-
+    return f"""INSTRUÇÃO ESPECIAL: O usuário listou três coisas pelas quais é grato: "{user_listed_items}"
 Sua tarefa:
-1. Reconheça positivamente o esforço e os itens listados pelo usuário (ex: "Que ótimo que você tirou um momento para isso!", "Maravilha!", "Essas são ótimas coisas para se sentir grato(a)!").
-2. Faça um breve comentário encorajador sobre o benefício de focar na gratidão (ex: "Focar nas coisas boas pode realmente ajudar a mudar nossa perspectiva e aumentar o bem-estar.").
-3. **Para dar continuidade à conversa, finalize com uma pergunta aberta e encorajadora, convidando o usuário a explorar mais ou indicando que você está pronto para a próxima interação.** Exemplos:
-    - "Como posso te ajudar a continuar cultivando seu bem-estar agora?"
-    - "Há algo mais em que posso te apoiar hoje para manter essa sensação positiva?"
-    - "O que você gostaria de fazer ou conversar em seguida?"
-4. Mantenha a resposta geral curta (cerca de 3 frases no total), empática e positiva.
-Não repita o disclaimer inicial.
+1. Reconheça positivamente (ex: "Maravilha!", "Essas são ótimas coisas!").
+2. Comente brevemente sobre o benefício da gratidão (ex: "Focar no positivo realmente eleva o espírito.").
+3. Finalize com uma pergunta aberta para continuar (ex: "Como posso te ajudar a continuar seu dia bem?").
+Resposta curta (aprox. 3 frases), empática. Não repita o disclaimer.
 """
 
-# Prompt para a primeira mensagem (se não usar system_instruction ou para modelos mais antigos)
-# Este prompt pode ser desnecessário se a mensagem inicial é sempre gerenciada pelo app.py
-def get_initial_disclaimer_prompt(user_input_text):
-    # Se a mensagem inicial é gerenciada pelo app.py, este prompt pode não ser mais usado.
-    # Mas se for, o disclaimer precisa ser removido se a system instruction já não o faz.
-    # Assumindo que SYSTEM_INSTRUCTION_FOR_MODEL foi atualizada para NÃO dar o disclaimer inicial:
-    return user_input_text # Simplesmente passa a mensagem do usuário para uma resposta direta
-    
-    # Se ainda precisasse do disclaimer aqui (improvável com a lógica atual):
-    # disclaimer_blob = " ".join(DISCLAIMER_TEXT_FOR_FIRST_BOT_RESPONSE)
-    # return (
-    #     f"INSTRUÇÃO: Sua primeira resposta deve começar com: \"{disclaimer_blob}\". "
-    #     f"Depois, responda à mensagem: \"{user_input_text}\"."
-    # )
+def get_breathing_guidance_prompt():
+    return f"""INSTRUÇÃO ESPECIAL: O usuário aceitou ser guiado em 3 respirações profundas.
+Forneça instruções CLARAS e CURTAS, passo a passo. Numere os passos. Tom calmo. Ao final, frase positiva. Não repita o disclaimer.
+"""
 
-# Adicione outros prompts aqui conforme necessário, por exemplo, para guiar mindfulness.
+def get_sound_awareness_guidance_prompt():
+    return f"""INSTRUÇÃO ESPECIAL: O usuário aceitou ser guiado em 1 minuto de atenção aos sons.
+Sua tarefa:
+1. Instruções CLARAS e CURTAS, passo a passo, para escuta atenta por aprox. 1 minuto.
+2. Sugira postura confortável, fechar os olhos (opcional).
+3. Guie: notar sons distantes, próximos, sutis, sem julgamento.
+4. Lembrete: trazer atenção de volta se mente divagar.
+5. Guie retorno ao ambiente.
+6. Finalize: "Como se sentiu após este momento de escuta atenta?".
+Tom calmo. Não repita o disclaimer.
+"""
+
+def get_initial_disclaimer_prompt(user_input_text):
+    # Este prompt só é usado se SYSTEM_INSTRUCTION_FOR_MODEL não for usada para o disclaimer inicial
+    # e o bot não estiver em um fluxo especial na primeira mensagem.
+    # Com a mensagem de boas-vindas na rota '/', este prompt para o LLM é menos provável de ser necessário
+    # para o disclaimer, mas pode ser usado para garantir que a primeira resposta do LLM seja contextual.
+    # Se o disclaimer já foi dado pela rota '/', então o LLM deve apenas responder ao user_input_text.
+    return user_input_text
