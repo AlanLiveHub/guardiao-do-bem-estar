@@ -1,0 +1,45 @@
+# Python bytecode
+__pycache__/
+*.pyc
+*.pyo
+
+# Virtual Environment - ESSENCIAL
+venv/
+.venv/
+env/
+.env/  # Diretório .env, não o arquivo .env
+ENV/
+env.bak/
+venv.bak/
+
+# Arquivo de segredos - CRUCIAL
+.env
+
+# Arquivos de sistema operacional
+.DS_Store
+Thumbs.db
+ehthumbs.db
+
+# Logs (se você gerar algum)
+*.log
+logs/
+
+# Arquivos de configuração de IDEs/Editores (opcional, mas recomendado)
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Arquivos de teste e cobertura (se você adicionar testes no futuro)
+.pytest_cache/
+.coverage
+coverage.xml
+htmlcov/
+
+# Pasta de instância do Flask (se você usar para configs locais ou DBs não versionados)
+# instance/
+
+# Outros arquivos de dependências ou build (geralmente não necessários para este projeto simples ainda)
+# build/
+# dist/
+# *.egg-info/

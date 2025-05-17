@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Guardião do Bem-Estar</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div id="chat-container">
+        <div id="chat-header">Guardião do Bem-Estar</div>
+        <div id="messages">
+            {% if chat_history_for_template and chat_history_for_template|length > 0 %}
+                {% for msg in chat_history_for_template %}
+                    {% if msg.parts_for_template and msg.parts_for_template|length > 0 %}
+                        {% set message_content_raw = msg.parts_for_template | join("\n") %}
+                        {% set row_class = 'user-message-row' if msg.role == 'user' else 'bot-message-row' %}
+                        {% set user_avatar_src = url_for('static', filename='img/user_avatar.jpg') %}
+                        {% set bot_avatar_src = url_for('static', filename='img/bot_avatar.jpg') %}
+                        {% set is_error_class = 'error-message-content' if msg.role == 'model' and msg.is_error else '' %}
+                        
+                        <div class="message-row {{ row_class }}">
+                            <img src="{{ user_avatar_src if msg.role == 'user' else bot_avatar_src }}" 
+                                 alt="{{ 'User' if msg.role == 'user' else 'Bot' }} Avatar" class="message-avatar">
+                            
+                            <div class="message-bubble-wrapper">
+                                <div class="message-content {{ is_error_class }}">
+                                    {{ message_content_raw | replace("\n", "<br>") | safe }}
+                                </div>
+                                <div class="message-timestamp">
+                                    {{ msg.timestamp | default('agora') }}
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        </div>
+        <form id="messageForm" autocomplete="off">
+            <div id="input-area">
+                <input type="text" id="userInput" name="message" placeholder="Digite sua mensagem..." autofocus>
+                <button type="submit" id="sendButton">Enviar</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // Passa URLs do Flask para o JavaScript
+        // Certifique-se que estas variáveis tenham nomes únicos para evitar conflitos globais
+        const USER_AVATAR_URL_FROM_TEMPLATE = "{{ url_for('static', filename='img/user_avatar.jpg') }}";
+        const BOT_AVATAR_URL_FROM_TEMPLATE = "{{ url_for('static', filename='img/bot_avatar.jpg') }}";
+    </script>
+    <script type="module" src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+</body>
+</html>

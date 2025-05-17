@@ -1,0 +1,191 @@
+/* static/css/style.css */
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    /* 
+       ESCOLHA UMA DESTAS CORES DE FUNDO ESCURAS E CALMANTES:
+       Descomente a linha da cor que você quer usar.
+    */
+    /* background-color: #1A2A40; /* Azul Noite - Uma boa opção escura e neutra */
+    /* background-color: #0B1C33; /* Azul Marinho Bem Escuro - Mais profundo */
+    background-color: #00334E; /* Azul Petróleo Escuro - Sugestão anterior, calmo e rico */
+    /* background-color: #2C3E50; /* Azul Acinzentado Escuro - Moderno e neutro */
+    /* background-color: #282C34; /* Cinza Escuro Tema Dev - Popular e calmo */
+    /* background-color: #1E3A2F; /* Verde Musgo Escuro - Toque natural */
+    /* background-color: #36393F; /* Cinza Discord Escuro - Familiar para alguns */
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    
+    /* IMPORTANTE: Ajuste a cor do texto padrão do body se houver texto fora do chat-container */
+    /* Se não houver texto diretamente no body, esta linha pode não ser estritamente necessária,
+       mas é uma boa prática para garantir contraste caso algo seja adicionado. */
+    color: #E0E0E0; /* Um cinza claro para ser legível no fundo escuro */
+}
+
+#chat-container {
+    width: 90%;
+    max-width: 700px;
+    background-color: #ffffff; /* MANTÉM O FUNDO DO CHAT CONTAINER BRANCO */
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15); /* A sombra pode precisar de um leve ajuste para se destacar no escuro */
+    display: flex;
+    flex-direction: column;
+    height: 85vh;
+    max-height: 800px;
+    overflow: hidden;
+}
+
+#chat-header {
+    background-color: #6cb492; /* Cor original do seu header */
+    color: white;
+    padding: 18px 25px;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    text-align: center;
+    font-size: 1.3em;
+    font-weight: 600;
+}
+
+#messages {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 20px;
+    border-bottom: 1px solid #e0e0e0; /* Cor original da borda */
+}
+
+/* --- Estilos para Mensagem com Avatar e Timestamp --- */
+.message-row {
+    display: flex;
+    margin-bottom: 10px;
+    align-items: flex-start; 
+}
+.message-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+    margin-top: 5px;
+}
+.message-bubble-wrapper {
+    display: flex;
+    flex-direction: column;
+    max-width: calc(100% - 50px - 10px); 
+}
+.message-content {
+    padding: 10px 15px;
+    border-radius: 18px;
+    line-height: 1.4;
+    word-wrap: break-word;
+    min-width: 80px;
+    color: #333; /* Cor de texto padrão para os balões (escuro para fundo claro do balão) */
+}
+.message-timestamp {
+    font-size: 0.75em;
+    color: #888; /* Cor original do timestamp */
+    margin-top: 4px;
+}
+
+/* Mensagem do Usuário */
+.user-message-row { justify-content: flex-end; }
+.user-message-row .message-avatar { margin-left: 10px; order: 2; }
+.user-message-row .message-bubble-wrapper { align-items: flex-end; order: 1; }
+.user-message-row .message-content {
+    background-color: #dcf8c6; /* Cor original do balão do usuário */
+    color: #333; /* Mantém texto escuro para balão claro */
+    border-bottom-right-radius: 5px;
+}
+.user-message-row .message-timestamp { text-align: right; padding-right: 5px; }
+
+
+/* Mensagem do Bot */
+.bot-message-row { justify-content: flex-start; }
+.bot-message-row .message-avatar { margin-right: 10px; order: 1; }
+.bot-message-row .message-bubble-wrapper { align-items: flex-start; order: 2; }
+.bot-message-row .message-content {
+    background-color: #f1f3f4; /* Cor original do balão do bot */
+    color: #333; /* Mantém texto escuro para balão claro */
+    border-bottom-left-radius: 5px;
+}
+.bot-message-row .message-timestamp { text-align: left; padding-left: 5px; }
+
+/* Estilo para conteúdo de mensagem de erro do bot */
+.bot-message-row .message-content.error-message-content {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ef9a9a;
+}
+        
+/* Indicador de Digitação */
+.typing-indicator-row { 
+    display: flex; 
+    align-items: center; 
+    margin-bottom: 10px;
+}
+.typing-indicator-row .message-avatar { margin-right: 10px; }
+.typing-indicator { display: flex; align-items: center; padding: 10px 0; }
+.typing-indicator span { 
+    height: 8px; width: 8px; 
+    background-color: #b0b8c2; /* Cor original dos pontos */
+    border-radius: 50%; display: inline-block; margin: 0 2px; 
+    animation: bounce 1.4s infinite ease-in-out both; 
+}
+.typing-indicator span:nth-child(1) { animation-delay: -0.32s; }
+.typing-indicator span:nth-child(2) { animation-delay: -0.16s; }
+@keyframes bounce { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1.0); } }
+
+/* Área de Input */
+#input-area { 
+    display: flex; 
+    padding: 15px; 
+    background-color: #f9f9f9; /* Cor original da área de input */
+    border-top: 1px solid #e0e0e0; /* Cor original da borda */
+}
+#userInput { 
+    flex-grow: 1; 
+    padding: 12px 15px; 
+    border: 1px solid #d1d9e0; /* Cor original da borda do input */
+    border-radius: 25px; 
+    margin-right: 10px; 
+    font-size: 1em; 
+    outline: none; 
+    color: #333; /* Cor de texto original do input */
+    background-color: #ffffff; /* Fundo original do input */
+}
+#userInput:focus { 
+    border-color: #6cb492; 
+    box-shadow: 0 0 0 2px rgba(108, 180, 146, 0.2); 
+}
+#userInput::placeholder {
+  color: #999; /* Placeholder original ou ajuste se necessário */
+}
+
+#sendButton { 
+    padding: 12px 20px; 
+    background-color: #6cb492; /* Cor original do botão */
+    color: white; 
+    border: none; 
+    border-radius: 25px; 
+    cursor: pointer; 
+    font-size: 1em; 
+    font-weight: 500; 
+    transition: background-color 0.2s ease; 
+}
+#sendButton:hover { 
+    background-color: #5a9c7d; 
+}
+#sendButton:disabled { 
+    background-color: #a5d6a7; /* Cor original do botão desabilitado */
+    cursor: not-allowed; 
+}
+
+/* Scrollbar (mantém o estilo original ou o que você tinha) */
+#messages::-webkit-scrollbar { width: 8px; }
+#messages::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
+#messages::-webkit-scrollbar-thumb { background: #c1c1c1; border-radius: 10px; }
+#messages::-webkit-scrollbar-thumb:hover { background: #a8a8a8; }
