@@ -1,7 +1,13 @@
 ## Guardião do Bem-Estar
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-<!-- Outros badges (opcional): ex: !Python Version, !Flask Version -->
+[![Python Version](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
+[![Flask Version](https://img.shields.io/badge/flask-2.x-orange.svg)](https://flask.palletsprojects.com/)
+[![Powered by Google Gemini](https://img.shields.io/badge/Powered%20by-Google%20Gemini-4285F4.svg)](https://ai.google.dev/models/gemini)
+[![HTML](https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white)](#)
+[![CSS](https://img.shields.io/badge/CSS-1572B6?logo=css&logoColor=white)](#)
+[![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black)](#)
+<!-- Outros badges (opcional) -->
 
 <p align="center">
   <!-- ✅ SUBSTITUA PELA URL DA SUA IMAGEM DE LOGO OU REMOVA ESTA TAG SE NÃO TIVER -->
