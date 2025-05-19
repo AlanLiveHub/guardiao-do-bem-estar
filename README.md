@@ -1,4 +1,5 @@
-# Guardião do Bem-Estar
+# Guardião do Bem-Estar 🌟 
+### Seu Companheiro Digital para uma Vida Mais Leve e Feliz!
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python Version](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
@@ -7,17 +8,13 @@
 [![HTML](https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white)](#)
 [![CSS](https://img.shields.io/badge/CSS-1572B6?logo=css&logoColor=white)](#)
 [![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black)](#)
-<!-- Outros badges (opcional) -->
 
 <p align="center">
-  <!-- ✅ SUBSTITUA PELA URL DA SUA IMAGEM DE LOGO OU REMOVA ESTA TAG SE NÃO TIVER -->
   <img src="static/img/guardian_robot.png" alt="Guardião do Bem-Estar Logo" width="200"/>
-  
 </p>
 <p align="center">
-    Seu Companheiro Digital para uma Vida Mais Leve e Feliz!
+    <em>Seu Companheiro Digital para uma Vida Mais Leve e Feliz!</em>
 </p>
-
 
 **Este projeto é fruto da inspiradora Jornada da Imersão IA da Alura!** 🚀
 
@@ -30,57 +27,50 @@ Cansado da correria e buscando um momento para si? O **Guardião do Bem-Estar** 
 O "Guardião do Bem-Estar" é mais que um chatbot: é um companheiro dedicado a auxiliar você na construção e manutenção de hábitos positivos. Desenvolvido com paixão durante a **Imersão IA da Alura**, este projeto explora o incrível potencial da Inteligência Artificial Generativa (com Google Gemini) para criar uma ferramenta que realmente entende e apoia suas necessidades de bem-estar emocional, sempre com um direcionamento ético e um toque de gamificação para tornar a jornada mais prazerosa.
 
 Nossa missão é te ajudar a:
-*   **Cultivar o autoconhecimento emocional.**
-*   **Integrar micro-hábitos saudáveis** na sua rotina.
-*   **Acessar ferramentas simples** para alívio do estresse e ansiedade.
-*   **Lembrar da importância de celebrar** cada pequena vitória!
+*   Cultivar o autoconhecimento emocional.
+*   Integrar micro-hábitos saudáveis na sua rotina.
+*   Acessar ferramentas simples para alívio do estresse e ansiedade.
+*   Lembrar da importância de celebrar cada pequena vitória!
 
 ---
 
-## ✨ O que o Guardião já pode fazer por você?
+## ✨ O que o Guardião do Bem-Estar Oferece Hoje?
 
 <p align="center">
-  <img src="static/gif/apresentation_1.gif" alt="Demonstração das Funcionalidades do Guardião" width="600"/>
-  <!-- Ajuste a largura conforme necessário -->
+  <img src="static/gifs/apresentation_1.gif" alt="Demonstração das Funcionalidades do Guardião" width="600"/>
+  <!-- ✅ Certifique-se que o caminho para o GIF está correto e o GIF existe no repositório -->
 </p>
 
+Nosso Guardião já está equipado com um conjunto de funcionalidades pensadas com carinho para te apoiar em sua jornada de autocuidado:
 
-Nosso Guardião está em constante aprendizado, mas já domina uma série de habilidades para te apoiar no dia a dia:
-
-*   👋 **Boas-Vindas Acolhedora:** Assim que você chega, o Guardião te recebe com uma mensagem calorosa e o importante lembrete sobre os limites da ferramenta e onde buscar ajuda profissional.
-*   💬 **Conversas Empáticas e Positivas:** Um diálogo leve e encorajador, focado em você.
-*   💖 **Check-in Emocional Inteligente:**
-    *   Compartilhe como está se sentindo através de uma **escala numérica (1-5)** ou com uma **palavra-chave** (o Guardião alterna as perguntas para variar!).
-    *   Receba validação, **+5 pontos de bem-estar** por se conectar com suas emoções, e sugestões personalizadas de ações ou exercícios.
-*   🧘 **Kit de Primeiros Socorros Emocionais (Guiado por RAG e LLM):**
-    *   🌬️ **Respiração Profunda Guiada:** Para momentos de tensão, um guia passo a passo para 3 ciclos de respiração relaxante.
-    *   👂 **Atenção Plena aos Sons:** Um exercício de mindfulness para ancorar no presente e acalmar a mente, utilizando scripts pré-definidos para consistência (RAG).
-    *   🚶‍♂️ **Escaneamento Corporal Curto:** Uma prática guiada (via RAG) para maior consciência corporal e liberação de tensões.
-    *   😊 **Técnica das "Três Coisas Boas":** Seja incentivado a listar três motivos de gratidão, com o Guardião reforçando positivamente essa prática.
-*   🏆 **Gamificação Suave e Motivadora:**
-    *   **Acumule Pontos de Bem-Estar!** Ganhe pontos ao completar check-ins, iniciar exercícios guiados e praticar a gratidão.
-    *   O Guardião te informa sobre seus ganhos e seu total de pontos, celebrando seu progresso!
-*   🌱 **Sugestão e Celebração de Micro-Hábitos:**
-    *   Receba sugestões de pequenas ações positivas (ex: beber água, alongar-se) em momentos oportunos.
-    *   Quando você relatar que completou uma ação, o Guardião celebra com você e te concede pontos!
-*   🔗 **Abordagem Holística (Mente-Corpo):** O Guardião se esforça para explicar como ações físicas (como os micro-hábitos ou exercícios) também trazem benefícios para seu estado mental e emocional.
-*   🎨 **Interface Agradável e Intuitiva:** Um design de chat limpo, com um fundo escuro que promove a tranquilidade e animações de digitação para uma experiência fluida.
-*   🔒 **Persistência da Conversa:** Seu histórico de chat com o Guardião (incluindo o contexto para o modelo de IA) é mantido durante sua sessão.
-*   🛡️ **Compromisso Inabalável com sua Segurança:**
-    *   **DISCLAIMER FUNDAMENTAL:** O Guardião é uma ferramenta de suporte. **ELE NÃO SUBSTITUI ACONSELHAMENTO MÉDICO, PSICOLÓGICO OU PSIQUIÁTRICO PROFISSIONAL.**
-    *   Em caso de expressões de sofrimento agudo ou risco, o Guardião **priorizará sua segurança**, interrompendo sugestões de hábitos e fornecendo imediatamente informações de contato para o **CVV (Centro de Valorização da Vida - Ligue 188 ou acesse cvv.org.br)** e outros serviços de apoio.
+*   👋 **Boas-Vindas Esclarecedora:** Ao iniciar o chat, você recebe uma saudação amigável e o importante disclaimer sobre os limites da ferramenta e a necessidade de buscar ajuda profissional quando indicado.
+*   💬 **Conversas Empáticas:** Interaja com um chatbot programado para responder com positividade e compreensão.
+*   💖 **Check-in Emocional Dinâmico:**
+    *   Expresse como está se sentindo através de uma **escala numérica (1-5)** ou com uma **palavra-chave** descritiva. O Guardião alterna as perguntas para manter a interação interessante!
+    *   Receba validação para seus sentimentos, **+5 pontos de bem-estar** por essa conexão, e sugestões de atividades ou exercícios personalizados.
+*   🧘 **Kit de Ferramentas para o Bem-Estar Imediato:**
+    *   🌬️ **Respiração Profunda Guiada:** Um guia passo a passo para 3 ciclos de respiração, utilizando scripts consistentes (RAG) para momentos de calma.
+    *   👂 **Atenção Plena aos Sons:** Um exercício de mindfulness focado na escuta, também guiado por scripts RAG, para ancorar no presente.
+    *   🚶‍♂️ **Escaneamento Corporal Curto:** Uma prática guiada (via RAG) para aumentar a consciência corporal e auxiliar no relaxamento de tensões.
+    *   😊 **Técnica das "Três Coisas Boas":** Seja incentivado a focar no positivo, listando três motivos de gratidão, com o Guardião reforçando essa prática valiosa.
+*   🏆 **Gamificação Motivadora:**
+    *   **Acumule Pontos de Bem-Estar!** Suas interações positivas, como completar check-ins e iniciar exercícios, são recompensadas com pontos.
+    *   O Guardião te mantém informado sobre seus ganhos e seu placar total, celebrando seu progresso!
+*   🌱 **Estímulo a Micro-Hábitos e Celebração:**
+    *   Receba sugestões de pequenas ações positivas que podem ser facilmente incorporadas ao seu dia.
+    *   Sinta o reconhecimento! O Guardião celebra com você quando você relata ter completado uma sugestão ou um micro-hábito.
+*   🔗 **Visão Holística (Mente-Corpo):** O Guardião busca conscientizá-lo sobre como pequenas ações físicas impactam positivamente seu estado mental e emocional.
+*   🎨 **Interface Agradável:** Um design de chat limpo, com um tema escuro que visa a tranquilidade, e animações de digitação para uma experiência mais natural.
+*   🧠 **Memória de Curto Prazo:** O Guardião mantém o contexto da sua conversa durante a sessão atual, inclusive após reinícios do servidor (através da persistência do histórico do SDK Gemini na sessão Flask).
+*   🛡️ **Segurança e Ética como Prioridade Máxima:**
+    *   **LEMBRETE VITAL:** O Guardião é uma ferramenta de suporte e formação de hábitos. **ELE NÃO SUBSTITUI ACONSELHAMENTO MÉDICO, PSICOLÓGICO OU PSIQUIÁTRICO PROFISSIONAL.**
+    *   Se identificar expressões de sofrimento agudo ou risco, o Guardião **interromperá suas funções regulares** para fornecer imediatamente informações do **CVV (Centro de Valorização da Vida - Ligue 188 ou acesse cvv.org.br)** e reforçar a importância da busca por ajuda especializada.
 
 ---
 
-## 🚀 O Futuro é Brilhante: O que Vem por Aí!
+## 🚀 Evolução Contínua
 
-A jornada de aprimoramento do Guardião continua! Temos planos empolgantes para o futuro:
-
-*   **Gamificação Mais Envolvente:** Introdução de sequências por manter hábitos, possíveis emblemas ou reconhecimentos visuais para suas conquistas de bem-estar.
-*   **RAG Expandido:** Utilizar a Recuperação Aumentada por Geração não apenas para os scripts de exercícios, mas também para fornecer informações ricas e baseadas em evidências sobre os benefícios de diferentes hábitos de bem-estar e para responder a perguntas mais gerais.
-*   **Lembretes Amigáveis (Reativo):** Possibilitar que você peça ao Guardião para te lembrar de fazer pausas, beber água ou praticar um micro-hábito.
-*   **Personalização Aprofundada:** Fazer com que o Guardião aprenda ainda mais com suas preferências para oferecer sugestões cada vez mais alinhadas.
-*   **Refinamento Contínuo:** Melhorar constantemente os prompts, a naturalidade da conversa, a variedade de sugestões e a inteligência do Guardião.
+O Guardião do Bem-Estar é um projeto dinâmico e em constante aprimoramento! Estamos sempre explorando novas formas de enriquecer sua experiência e adicionar ferramentas ainda mais eficazes para apoiar sua jornada de autocuidado. Nosso compromisso é com a evolução contínua, buscando sempre o que há de melhor em tecnologia e abordagens de bem-estar para você. Fique atento às futuras atualizações!
 
 ---
 
@@ -88,18 +78,18 @@ A jornada de aprimoramento do Guardião continua! Temos planos empolgantes para 
 
 Este projeto é uma sinergia de tecnologias modernas e focadas na experiência do usuário:
 
-*   **Backend:** Python com **Flask**, um microframework web ágil e eficiente.
-*   **Inteligência Artificial:** **Google Gemini** (modelo `gemini-1.5-flash-latest`), uma poderosa Large Language Model para conversas naturais, geração de conteúdo empático e processamento de instruções complexas.
-*   **Frontend:** **HTML5, CSS3, e JavaScript (ES6+)** puro para uma interface de chat leve, responsiva e interativa.
-*   **Gerenciamento de Sessão e Persistência Inicial:** **Flask Sessions** para armazenar o histórico da UI, o estado da conversa (flags de fluxo), o histórico da conversa do SDK Gemini e os pontos de gamificação do usuário.
-*   **RAG (Retrieval Augmented Generation) - Fase Inicial:** Scripts para exercícios guiados armazenados em arquivos **JSON** e recuperados pelo backend para fornecer instruções consistentes e de alta qualidade através do LLM.
-*   **Estrutura do Projeto:** Código modularizado no backend (`config.py`, módulos em `chatbot_logic/`) e no frontend (arquivos CSS e JS dedicados em `static/`) para melhor organização e manutenção.
-*   **Controle de Versão:** **Git** e **GitHub**.
-*   **Ambiente:** **Python**, gerenciamento de dependências com `pip` e `requirements.txt`, variáveis de ambiente com `python-dotenv`.
+*   **Backend:** Python com **Flask**.
+*   **Inteligência Artificial:** **Google Gemini** (modelo `gemini-1.5-flash-latest`).
+*   **Frontend:** **HTML5, CSS3, e JavaScript (ES6+)**.
+*   **Gerenciamento de Sessão e Persistência Inicial:** **Flask Sessions** (para histórico da UI, estado da conversa, histórico do SDK Gemini e pontos de gamificação).
+*   **RAG (Retrieval Augmented Generation) - Fase Inicial:** Scripts para exercícios guiados armazenados em arquivos **JSON**.
+*   **Estrutura do Projeto:** Código modularizado no backend e frontend.
+*   **Controle de Versão:** **Git** e **GitHub**, com `.gitignore`.
+*   **Ambiente:** **Python**, `pip`, `requirements.txt`, `python-dotenv`.
 
-**Planejado para o Futuro (Tecnologias):**
-*   **Persistência de Dados Avançada:** Exploração de bancos de dados (como SQLite ou PostgreSQL) para gamificação de longo prazo, histórico de usuário mais robusto e preferências.
-*   **Expansão do RAG:** Uso de embeddings vetoriais e bancos de dados vetoriais para buscas semânticas em uma base de conhecimento maior.
+**Planos Técnicos Futuros (Geral):**
+*   Aprimoramento contínuo da arquitetura de dados para suportar funcionalidades mais ricas e de longo prazo.
+*   Expansão das capacidades de recuperação de informação para respostas ainda mais personalizadas e precisas.
 
 ---
 
@@ -114,7 +104,8 @@ Este projeto é uma sinergia de tecnologias modernas e focadas na experiência d
 2.  **Crie e ative um ambiente virtual (altamente recomendado):**
     ```bash
     python3 -m venv venv
-    source venv/bin/activate
+    # No Windows: venv\Scripts\activate
+    # No macOS/Linux: source venv/bin/activate
     ```
 3.  **Instale as dependências:**
     ```bash
@@ -126,8 +117,10 @@ Este projeto é uma sinergia de tecnologias modernas e focadas na experiência d
     *   Crie um arquivo chamado `.env` na raiz do projeto.
     *   Adicione sua chave da API Gemini:
         ```env
-        GEMINI_API_KEY=SUA_CHAVE_API_GEMINI_AQUI
+        GEMINI_API_KEY=SUA_CHAVE_API_GEMINI_AQUI 
         ```
+        *(✅ SUBSTITUA `SUA_CHAVE_API_GEMINI_AQUI`)*
+
 5.  **Execute o aplicativo Flask:**
     ```bash
     python3 app.py
@@ -140,8 +133,7 @@ Este projeto é uma sinergia de tecnologias modernas e focadas na experiência d
 
 O "Guardião do Bem-Estar" é mais que um chatbot; é um convite para você investir no seu bem mais precioso: você mesmo(a). Estamos empolgados para continuar desenvolvendo esta ferramenta e esperamos que ela possa trazer mais leveza, consciência e alegria para o seu dia a dia.
 
-<!-- **Fique ligado para mais atualizações e sinta-se à vontade para experimentar o Guardião!**
-*(✅ Se o projeto estiver hospedado publicamente, adicione o link aqui. Ex: [Experimente o Guardião do Bem-Estar Agora!](URL_DO_SEU_APP_HOSPEDADO))* -->
+*(✅ Se o projeto estiver hospedado publicamente, adicione o link aqui. Ex: [Experimente o Guardião do Bem-Estar Agora!](URL_DO_SEU_APP_HOSPEDADO))*
 
 ---
 <!-- 
